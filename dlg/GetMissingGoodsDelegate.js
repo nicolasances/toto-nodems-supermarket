@@ -21,7 +21,7 @@ exports.getMissingGoods = function(missingGoodsFilter) {
           missingGoods.push(converter.missingGoodConverter.toMissingGood(array[i]));
         }
 
-        success({missingGoods: missingGoods});
+        success({goods: missingGoods});
 
       });
     });
