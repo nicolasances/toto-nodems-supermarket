@@ -10,7 +10,7 @@ exports.deleteMissingGoods = function(deleteMissingGoodsFilter) {
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
-      var results = db.db(config.dbName).collection(config.collections.missingGoods).deleteMany(converter.missingGoodConverter.filter(deleteMissingGoodsFilter)), function(err, doc) {
+      var results = db.db(config.dbName).collection(config.collections.missingGoods).deleteMany(converter.missingGoodConverter.filter(deleteMissingGoodsFilter), function(err, doc) {
 
         db.close();
 
