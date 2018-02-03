@@ -1,6 +1,7 @@
 var express = require('express');
 var Promise = require('promise');
 var bodyParser = require("body-parser");
+var logger = require('toto-apimon-events')
 
 var getMissingGoodsDlg = require('./dlg/GetMissingGoodsDelegate');
 var postMissingGoodDlg = require('./dlg/PostMissingGoodDelegate');
@@ -20,12 +21,12 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {res.send({status: 'running'});});
-app.get('/missingGoods', function(req, res) {getMissingGoodsDlg.getMissingGoods({bought: req.params.bought}).then(function(result) {res.send(result);});});
-app.delete('/missingGoods', function(req, res) {deleteMissingGoodsDlg.deleteMissingGoods({bought: req.params.bought}).then(function() {res.send();});});
-app.post('/missingGoods', function(req, res) {postMissingGoodDlg.postMissingGood(req.body).then(function(result) {res.send(result);});});
-app.get('/missingGoods/:id', function(req, res) {getMissingGoodDlg.getMissingGood(req.params.id).then(function(result) {res.send(result);});});
-app.put('/missingGoods/:id', function(req, res) {putMissingGoodDlg.putMissingGood(req.params.id, req.body).then(function(result) {res.send(result);});});
-app.delete('/missingGoods/:id', function(req, res) {deleteMissingGoodDlg.deleteMissingGood(req.params.id).then(function() {res.send()});});
+app.get('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'GET', req.query, req.params, req.body); getMissingGoodsDlg.getMissingGoods({bought: req.params.bought}).then(function(result) {res.send(result);});});
+app.delete('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'DELETE', req.query, req.params, req.body); deleteMissingGoodsDlg.deleteMissingGoods({bought: req.params.bought}).then(function() {res.send();});});
+app.post('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'POST', req.query, req.params, req.body); postMissingGoodDlg.postMissingGood(req.body).then(function(result) {res.send(result);});});
+app.get('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'GET', req.query, req.params, req.body); getMissingGoodDlg.getMissingGood(req.params.id).then(function(result) {res.send(result);});});
+app.put('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'PUT', req.query, req.params, req.body); putMissingGoodDlg.putMissingGood(req.params.id, req.body).then(function(result) {res.send(result);});});
+app.delete('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'DELETE', req.query, req.params, req.body); deleteMissingGoodDlg.deleteMissingGood(req.params.id).then(function() {res.send()});});
 
 app.listen(8080, function() {
   console.log('Supermarket Microservice up and running');
