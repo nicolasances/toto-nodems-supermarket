@@ -1,7 +1,7 @@
 var express = require('express');
 var Promise = require('promise');
 var bodyParser = require("body-parser");
-var logger = require('toto-apimon-events')
+var logger = require('toto-apimon-events');
 
 var getMissingGoodsDlg = require('./dlg/GetMissingGoodsDelegate');
 var postMissingGoodDlg = require('./dlg/PostMissingGoodDelegate');
@@ -10,17 +10,19 @@ var deleteMissingGoodDlg = require('./dlg/DeleteMissingGoodDelegate');
 var deleteMissingGoodsDlg = require('./dlg/DeleteMissingGoodsDelegate');
 var putMissingGoodDlg = require('./dlg/PutMissingGoodDelegate');
 
+var apiName = 'supermarket';
+
 var app = express();
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, GoogleIdToken");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
   res.header("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
   next();
 });
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {res.send({status: 'running'});});
+app.get('/', function(req, res) {res.send({api: apiName, status: 'running'});});
 app.get('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'GET', req.query, req.params, req.body); getMissingGoodsDlg.getMissingGoods({bought: req.params.bought}).then(function(result) {res.send(result);});});
 app.delete('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'DELETE', req.query, req.params, req.body); deleteMissingGoodsDlg.deleteMissingGoods({bought: req.params.bought}).then(function() {res.send();});});
 app.post('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'POST', req.query, req.params, req.body); postMissingGoodDlg.postMissingGood(req.body).then(function(result) {res.send(result);});});
