@@ -14,6 +14,8 @@ var postCurrentListItem = require('./dlg/PostCurrentListItem');
 var getCurrentListItems = require('./dlg/GetCurrentListItems');
 var deleteCurrentListItem = require('./dlg/DeleteCurrentListItem');
 
+var getCommonItems = require('./dlg/GetCommonItems');
+
 var apiName = 'supermarket';
 
 var app = express();
@@ -38,6 +40,7 @@ app.post('/currentList/items', function(req, res) {logger.apiCalled('supermarket
 app.get('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'GET', req.query, req.params, req.body); getCurrentListItems.do().then(function(result) {res.send(result);});});
 app.delete('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'DELETE', req.query, req.params, req.body); deleteCurrentListItem.do(req.params.id).then(function(result) {res.send(result);});});
 
+app.get('/commonItems', function(req, res) {logger.apiCalled('supermarket', '/commonItems', 'GET', req.query, req.params, req.body); getCommonItems.do().then(function(result) {res.send(result);});});
 
 app.listen(8080, function() {
   console.log('Supermarket Microservice up and running');
