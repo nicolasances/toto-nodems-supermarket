@@ -10,6 +10,10 @@ var deleteMissingGoodDlg = require('./dlg/DeleteMissingGoodDelegate');
 var deleteMissingGoodsDlg = require('./dlg/DeleteMissingGoodsDelegate');
 var putMissingGoodDlg = require('./dlg/PutMissingGoodDelegate');
 
+var postCurrentListItem = require('./dlg/PostCurrentListItem');
+var getCurrentListItems = require('./dlg/GetCurrentListItems');
+var deleteCurrentListItem = require('./dlg/DeleteCurrentListItem');
+
 var apiName = 'supermarket';
 
 var app = express();
@@ -29,6 +33,11 @@ app.post('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/
 app.get('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'GET', req.query, req.params, req.body); getMissingGoodDlg.getMissingGood(req.params.id).then(function(result) {res.send(result);});});
 app.put('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'PUT', req.query, req.params, req.body); putMissingGoodDlg.putMissingGood(req.params.id, req.body).then(function(result) {res.send(result);});});
 app.delete('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'DELETE', req.query, req.params, req.body); deleteMissingGoodDlg.deleteMissingGood(req.params.id).then(function() {res.send()});});
+
+app.post('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'POST', req.query, req.params, req.body); postCurrentListItem.do(req.body).then(function(result) {res.send(result);});});
+app.get('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'GET', req.query, req.params, req.body); getCurrentListItems.do().then(function(result) {res.send(result);});});
+app.delete('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'DELETE', req.query, req.params, req.body); deleteCurrentListItem.do(req.params.id).then(function(result) {res.send(result);});});
+
 
 app.listen(8080, function() {
   console.log('Supermarket Microservice up and running');
