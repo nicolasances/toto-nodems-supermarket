@@ -9,7 +9,7 @@ exports.do = function(id) {
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
-      var results = db.db(config.dbName).collection(config.collections.currentList).deleteOne(new mongo.ObjectId(id), function(err, doc) {
+      var results = db.db(config.dbName).collection(config.collections.currentList).deleteOne({_id: new mongo.ObjectId(id)}, function(err, doc) {
 
         db.close();
 
