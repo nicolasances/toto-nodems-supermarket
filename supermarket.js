@@ -13,6 +13,7 @@ var putMissingGoodDlg = require('./dlg/PutMissingGoodDelegate');
 var postCurrentListItem = require('./dlg/PostCurrentListItem');
 var getCurrentListItems = require('./dlg/GetCurrentListItems');
 var deleteCurrentListItem = require('./dlg/DeleteCurrentListItem');
+var putCurrentListItem = require('./dlg/PutCurrentListItem');
 
 var getCommonItems = require('./dlg/GetCommonItems');
 
@@ -39,6 +40,7 @@ app.delete('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarke
 app.post('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'POST', req.query, req.params, req.body); postCurrentListItem.do(req.body).then(function(result) {res.send(result);});});
 app.get('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'GET', req.query, req.params, req.body); getCurrentListItems.do().then(function(result) {res.send(result);});});
 app.delete('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'DELETE', req.query, req.params, req.body); deleteCurrentListItem.do(req.params.id).then(function(result) {res.send(result);});});
+app.put('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'PUT', req.query, req.params, req.body); putCurrentListItem.do(req.params.id, req.body).then(function(result) {res.send(result);});});
 
 app.get('/commonItems', function(req, res) {logger.apiCalled('supermarket', '/commonItems', 'GET', req.query, req.params, req.body); getCommonItems.do().then(function(result) {res.send(result);});});
 

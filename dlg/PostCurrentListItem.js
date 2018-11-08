@@ -11,7 +11,8 @@ exports.do = function(item) {
 
       // Create the data object
       let data = {
-        name: item.name
+        name: item.name,
+        addedBy: item.addedBy
       }
 
       // Insert the data object
