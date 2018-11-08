@@ -20,7 +20,9 @@ exports.do = function() {
 
           items.push({
             id: item._id,
-            name: item.name
+            name: item.name,
+            note: item.note,
+            noteBy: item.noteBy
           });
         }
 
