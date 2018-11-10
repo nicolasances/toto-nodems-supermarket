@@ -19,6 +19,8 @@ exports.do = function(filters) {
       // Sorting
       options.sort = [['date', 'descending']];
 
+      console.log(options);
+
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.executions)
                           .find(filter, options)
