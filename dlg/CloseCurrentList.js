@@ -16,6 +16,8 @@ exports.do = function(cost) {
       return;
     }
 
+    console.log('Closing a supermarket List with cost: ' + cost);
+
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       var results = db.db(config.dbName).collection(config.collections.currentList)
@@ -30,19 +32,36 @@ exports.do = function(cost) {
         // 1. Copy all the grabbed items to a closed list
         let execution = {
           date: moment().tz('Europe/Rome').format('YYYYMMDD'),
-          items: array,
+          items: [],
           cost: cost
         }
+
+        for (var i = 0; i < array.length; i++) {
+          execution.items.push({
+            array[i].name,
+            array[i].note,
+            array[i].noteBy,
+          });
+        }
+
+        console.log('Saving an execution: ');
+        console.log(execution);
 
         // 2. Save the execution
         db.db(config.dbName).collection(config.collections.executions).insertOne(execution, function(err, result) {
 
+          console.log('Execution saved under ' + config.collections.executions);
+          console.log('Removing grabbed items from current list...');
+
           // 3. Remove grabbed items
           db.db(config.dbName).collection(config.collections.currentList).deleteMany({grabbed: true}, function(err, res) {
 
+            console.log('Grabbed items removed. ');
+            console.log('Done!');
+
             db.close();
 
-            success();
+            success({});
 
           });
         });
