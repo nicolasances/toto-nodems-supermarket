@@ -11,13 +11,17 @@ exports.do = function(filters) {
 
       // Filter definition
       let filter = {};
+      let options = {};
 
-      if (filters.maxResults != null) filter.maxResults = filters.maxResults;
+      // Max results
+      if (filters.maxResults != null) options.limit = filters.maxResults;
+
+      // Sorting
+      options.sort = [['date', '-1']];
 
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.executions)
-                          .find(filter)
-                          .sort({date: -1})
+                          .find(filter, options)
                           .toArray(function(err, array) {
 
         db.close();
