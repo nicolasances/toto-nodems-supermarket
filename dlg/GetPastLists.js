@@ -17,7 +17,7 @@ exports.do = function(filters) {
       if (filters.maxResults != null) options.limit = filters.maxResults;
 
       // Sorting
-      options.sort = [{date: '-1'}];
+      options.sort = [['date', 'descending']];
 
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.executions)
