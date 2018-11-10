@@ -13,7 +13,7 @@ exports.do = function(filters) {
       let filter = {};
 
       if (filters.grabbed != null) {
-        if (filter.grabbed) filter.grabbed = true;
+        if (filter.grabbed == 'true') filter.grabbed = true;
         else filter.$or = [{grabbed: false}, {grabbed: null}];
       }
 
