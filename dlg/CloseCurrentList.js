@@ -35,7 +35,7 @@ exports.do = function(cost) {
         }
 
         // 2. Save the execution
-        db.db(config.dbName).collection(config.collections.executions).insert(execution, function(err, result) {
+        db.db(config.dbName).collection(config.collections.executions).insertOne(execution, function(err, result) {
 
           // 3. Remove grabbed items
           db.db(config.dbName).collection(config.collections.currentList).deleteMany({grabbed: true}, function(err, res) {
