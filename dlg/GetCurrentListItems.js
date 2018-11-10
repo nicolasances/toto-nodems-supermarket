@@ -17,6 +17,8 @@ exports.do = function(filters) {
         else filter.$or = [{grabbed: false}, {grabbed: null}];
       }
 
+      console.log(filter);
+
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.currentList)
                           .find(filter)
