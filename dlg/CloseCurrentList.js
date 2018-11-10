@@ -21,7 +21,8 @@ exports.do = function(cost) {
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       var results = db.db(config.dbName).collection(config.collections.currentList)
-                                        .find({grabbed: true}, function(err, array) {
+                                        .find({grabbed: true})
+                                        .toArray(function(err, array) {
 
         // If there's no data, just leave
         if (array == null || array.length == 0) {
