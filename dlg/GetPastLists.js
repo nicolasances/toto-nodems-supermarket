@@ -13,13 +13,11 @@ exports.do = function(filters) {
       let filter = {};
       let options = {};
 
-      // Max results
-      if (filters.maxResults != null) options.limit = filters.maxResults;
-
       // Sorting
       options.sort = [['date', 'descending']];
 
-      console.log(options);
+      // Max results
+      if (filters.maxResults != null) options.limit = parseInt(filters.maxResults);
 
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.executions)
