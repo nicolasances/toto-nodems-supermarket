@@ -39,9 +39,9 @@ exports.do = function(cost) {
 
         for (var i = 0; i < array.length; i++) {
           execution.items.push({
-            array[i].name,
-            array[i].note,
-            array[i].noteBy,
+            name: array[i].name,
+            note: array[i].note,
+            noteBy: array[i].noteBy
           });
         }
 
