@@ -34,7 +34,8 @@ exports.do = function(filters) {
             name: item.name,
             note: item.note,
             noteBy: item.noteBy,
-            noteByGivenName: item.noteByGivenName
+            noteByGivenName: item.noteByGivenName,
+            grabbed: item.grabbed
           });
         }
 
