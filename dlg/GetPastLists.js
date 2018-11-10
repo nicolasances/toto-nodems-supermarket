@@ -43,7 +43,7 @@ exports.do = function(filters) {
           });
         }
 
-        success({items: items});
+        success({lists: items});
 
       });
     });
