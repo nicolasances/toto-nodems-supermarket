@@ -13,11 +13,9 @@ exports.do = function(filters) {
       let filter = {};
 
       if (filters.grabbed != null) {
-        if (filter.grabbed == 'true') filter.grabbed = true;
+        if (filters.grabbed == 'true') filter.grabbed = true;
         else filter.$or = [{grabbed: false}, {grabbed: null}];
       }
-
-      console.log(filter);
 
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.currentList)
