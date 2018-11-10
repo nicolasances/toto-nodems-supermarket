@@ -26,6 +26,11 @@ exports.do = function(filters) {
 
         db.close();
 
+        if (array == null) {
+          success({});
+          return;
+        }
+
         var items = [];
         for (var i = 0; i < array.length; i++) {
 
