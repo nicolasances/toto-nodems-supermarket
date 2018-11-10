@@ -3,13 +3,21 @@ var config = require('../config');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function() {
+exports.do = function(filters) {
 
   return new Promise(function(success, failure) {
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
-      db.db(config.dbName).collection(config.collections.currentList).find().toArray(function(err, array) {
+      // Filter definition
+      let filter = {};
+
+      if (filters.grabbed != null) filter.grabbed = filters.grabbed;
+
+      // Fetch the data! 
+      db.db(config.dbName).collection(config.collections.currentList)
+                          .find(filter)
+                          .toArray(function(err, array) {
 
         db.close();
 
