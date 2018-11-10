@@ -34,7 +34,7 @@ exports.do = function(cost) {
         let execution = {
           date: moment().tz('Europe/Rome').format('YYYYMMDD'),
           items: [],
-          cost: cost
+          cost: cost.cost
         }
 
         for (var i = 0; i < array.length; i++) {
