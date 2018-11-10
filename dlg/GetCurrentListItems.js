@@ -12,9 +12,12 @@ exports.do = function(filters) {
       // Filter definition
       let filter = {};
 
-      if (filters.grabbed != null) filter.grabbed = filters.grabbed;
+      if (filters.grabbed != null) {
+        if (filter.grabbed) filter.grabbed = true;
+        else filter.$or = [{grabbed: false}, {grabbed: null}];
+      }
 
-      // Fetch the data! 
+      // Fetch the data!
       db.db(config.dbName).collection(config.collections.currentList)
                           .find(filter)
                           .toArray(function(err, array) {
