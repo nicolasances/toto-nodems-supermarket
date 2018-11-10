@@ -22,7 +22,8 @@ exports.do = function() {
             id: item._id,
             name: item.name,
             note: item.note,
-            noteBy: item.noteBy
+            noteBy: item.noteBy,
+            noteByGivenName: item.noteByGivenName
           });
         }
 
