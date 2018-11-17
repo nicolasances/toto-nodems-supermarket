@@ -34,7 +34,7 @@ exports.do = function(list) {
 
         // POST a payment on the /expenses API
         postPayment.do({
-          amount: parseFloat(list.amount),
+          amount: parseFloat(list.cost),
           date: list.date,
           category: 'SUPERMERCATO',
           description: 'Supermarket: Føtex', // TODO : put the true name of the supermarket and location (e.g. Copenhagen)
