@@ -15,9 +15,6 @@ exports.do = function(id, data) {
       // Define the update statement
       let updateStatement = {$set: updateData};
 
-      console.log(id);
-      console.log(updateStatement);
-
       // Do the update
       db.db(config.dbName).collection(config.collections.executions)
                           .updateOne({_id: new mongo.ObjectId(id)}, updateStatement, function(err, res) {

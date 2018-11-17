@@ -24,6 +24,8 @@ exports.do = function(paymentInfo) {
             return;
           }
 
+          console.log(body);
+
           // Check that the payment id has been received
           if (body.id == null) {
             failure({message: 'No payment ID in the response. The payment has probably not been created'});
