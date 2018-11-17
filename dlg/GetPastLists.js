@@ -40,7 +40,8 @@ exports.do = function(filters) {
             id: item._id,
             cost: item.cost,
             date: item.date,
-            paid: item.paid == null ? false : item.paid
+            paid: item.paid == null ? false : item.paid,
+            paymentId: item.paymentId
           });
         }
 
