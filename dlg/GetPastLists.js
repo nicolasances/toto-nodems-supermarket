@@ -39,7 +39,8 @@ exports.do = function(filters) {
           items.push({
             id: item._id,
             cost: item.cost,
-            date: item.date
+            date: item.date,
+            paid: item.paid == null ? false : item.paid
           });
         }
 
