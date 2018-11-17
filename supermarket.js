@@ -17,6 +17,7 @@ var deleteCurrentListItem = require('./dlg/DeleteCurrentListItem');
 var putCurrentListItem = require('./dlg/PutCurrentListItem');
 
 var getPastLists = require('./dlg/GetPastLists');
+var payPastList = require('./dlg/PayPastList');
 
 var getCommonItems = require('./dlg/GetCommonItems');
 
@@ -47,6 +48,7 @@ app.delete('/currentList/items/:id', function(req, res) {logger.apiCalled('super
 app.put('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'PUT', req.query, req.params, req.body); putCurrentListItem.do(req.params.id, req.body).then(function(result) {res.send(result);});});
 
 app.get('/pastLists', function(req, res) {logger.apiCalled('supermarket', '/pastLists', 'GET', req.query, req.params, req.body); getPastLists.do(req.query).then(function(result) {res.send(result);});});
+app.post('/pastLists/:id/pay', function(req, res) {logger.apiCalled('supermarket', '/pastLists/{id}/pay', 'POST', req.query, req.params, req.body); payPastList.do(req.params.id, req.body).then(function(result) {res.send(result);});});
 
 app.get('/commonItems', function(req, res) {logger.apiCalled('supermarket', '/commonItems', 'GET', req.query, req.params, req.body); getCommonItems.do().then(function(result) {res.send(result);});});
 
