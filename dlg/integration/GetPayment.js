@@ -22,7 +22,12 @@ exports.do = function(id) {
             return;
           }
 
-          success(body);
+          if (body == null) {
+            failure({message: 'No body received when calling the GET /expenses/' + id});
+            return;
+          }
+
+          success(JSON.parse(body));
 
         }
       )

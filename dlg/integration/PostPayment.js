@@ -24,15 +24,21 @@ exports.do = function(paymentInfo) {
             return;
           }
 
-          console.log(body);
-
           // Check that the payment id has been received
-          if (body.id == null) {
+          if (body == null) {
             failure({message: 'No payment ID in the response. The payment has probably not been created'});
             return;
           }
 
-          success(body);
+          let jsonBody = JSON.parse(body);
+
+          // Check that the payment id has been received
+          if (jsonBody.id == null) {
+            failure({message: 'No payment ID in the response. The payment has probably not been created'});
+            return;
+          }
+
+          success(jsonBody);
 
         }
       )
