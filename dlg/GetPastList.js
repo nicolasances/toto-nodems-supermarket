@@ -35,7 +35,7 @@ exports.do = function(listId) {
         if (array[0].items != null) {
 
           for (var i = 0; i < array[0].items.length; i++) {
-            list.items.push(({
+            list.items.push({
               name: array[0].items[i].name,
               note: array[0].items[i].note,
               noteBy: array[0].items[i].noteBy
