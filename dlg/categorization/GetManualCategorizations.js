@@ -37,7 +37,7 @@ exports.do = function(filter) {
           })
         }
 
-        success({items: array});
+        success({items: items});
       });
 
     });
