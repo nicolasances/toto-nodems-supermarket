@@ -38,7 +38,8 @@ exports.do = function(listId) {
             list.items.push({
               name: array[0].items[i].name,
               note: array[0].items[i].note,
-              noteBy: array[0].items[i].noteBy
+              noteBy: array[0].items[i].noteBy,
+              category: array[0].items[i].categoryId
             });
           }
         }

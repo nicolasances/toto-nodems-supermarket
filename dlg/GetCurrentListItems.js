@@ -35,7 +35,8 @@ exports.do = function(filters) {
             note: item.note,
             noteBy: item.noteBy,
             noteByGivenName: item.noteByGivenName,
-            grabbed: item.grabbed
+            grabbed: item.grabbed,
+            category: item.categoryId
           });
         }
 
