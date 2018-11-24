@@ -43,7 +43,7 @@ consumer.on('message', (message) => {
         if (items == null || items.length == 0) return;
 
         // Update the item
-        putCurrentListItem.do(data.itemId, {category: items[0].categoryId});
+        putCurrentListItem.do(data.itemId, {automatic: true, category: items[0].categoryId});
 
       })
     });
