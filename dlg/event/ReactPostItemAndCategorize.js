@@ -27,6 +27,8 @@ consumer.on('message', (message) => {
     // Extract data from the event
     let data = JSON.parse(message.value);
 
+    console.log(message);
+
     // Only care about POSTed items
     if (data.action != 'POST') return;
 
@@ -36,8 +38,12 @@ consumer.on('message', (message) => {
       // Get the name of the item
       let name = item.name;
 
+      console.log(item);
+
       // Find out if anyone has a category for that name
       getManualCategorizations.do({itemName: name}).then((data) => {
+
+        console.log(data);
 
         let items = data.items;
 
