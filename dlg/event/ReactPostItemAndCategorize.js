@@ -1,6 +1,7 @@
 var kafka = require('kafka-node');
 var moment = require('moment-timezone');
 var getCurrentListItem = require('../GetCurrentListItem');
+var putCurrentListItem = require('../PutCurrentListItem');
 var getManualCategorizations = require('../categorization/GetManualCategorizations');
 
 // Kafka setup
