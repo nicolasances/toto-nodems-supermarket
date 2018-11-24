@@ -29,7 +29,7 @@ exports.do = function(item) {
           time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
           action: 'POST',
           itemId: res.insertedId
-        });
+        }).then(() => {console.log('Published POST of item ' + res.insertedId);}, () => {console.log('Failed posting item');});
 
       });
 
