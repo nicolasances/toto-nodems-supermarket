@@ -29,6 +29,8 @@ consumer.on('message', (message) => {
     // Retrieve the item's details
     getCurrentListItem.do(data.itemId).then((item) => {
 
+      if (item == null) return;
+
       // Get the name of the item
       let name = item.name;
 
