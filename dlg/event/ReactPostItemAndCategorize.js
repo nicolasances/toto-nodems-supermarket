@@ -38,8 +38,6 @@ consumer.on('message', (message) => {
       // Find out if anyone has a category for that name
       getManualCategorizations.do({itemName: name}).then((data) => {
 
-        console.log(data);
-
         let items = data.items;
 
         if (items == null || items.length == 0) return;

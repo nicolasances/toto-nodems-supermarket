@@ -17,7 +17,8 @@ exports.do = function(filter) {
       // Persist
       db.db(config.dbName)
                 .collection(config.collections.categorizations)
-                .find(mongoFilter, function(err, array) {
+                .find(mongoFilter)
+                .toArray(function(err, array) {
 
         db.close();
 
