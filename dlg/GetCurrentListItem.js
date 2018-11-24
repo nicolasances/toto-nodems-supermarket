@@ -19,13 +19,13 @@ exports.do = function(id) {
         if (array == null || array.length == 0) success({});
 
         success({
-          id: item._id,
-          name: item.name,
-          note: item.note,
-          noteBy: item.noteBy,
-          noteByGivenName: item.noteByGivenName,
-          grabbed: item.grabbed,
-          category: item.categoryId
+          id: array[0]._id,
+          name: array[0].name,
+          note: array[0].note,
+          noteBy: array[0].noteBy,
+          noteByGivenName: array[0].noteByGivenName,
+          grabbed: array[0].grabbed,
+          category: array[0].categoryId
         })
 
       });
