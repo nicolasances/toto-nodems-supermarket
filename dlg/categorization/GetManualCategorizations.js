@@ -14,6 +14,8 @@ exports.do = function(filter) {
 
       if (filter.itemName) mongoFilter.itemName = filter.itemName;
 
+      console.log(JSON.stringify(filter));
+
       // Persist
       db.db(config.dbName)
                 .collection(config.collections.categorizations)
@@ -23,6 +25,8 @@ exports.do = function(filter) {
         db.close();
 
         let items = [];
+
+        console.log(array.length);
 
         if (array == null) {
           success({items: items});
@@ -37,6 +41,8 @@ exports.do = function(filter) {
             categoryId: array[i].categoryId
           })
         }
+
+        console.log(items);
 
         success({items: items});
       });
