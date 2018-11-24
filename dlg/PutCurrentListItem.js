@@ -20,8 +20,6 @@ exports.do = function(id, data) {
       // If it's a recategorization, the item name must be provided
       if (data.category && !data.itemName) validationErrors.push({message: 'Missing item name (field itemName).'})
 
-      console.log(validationErrors);
-
       // If there's any validation error, go back
       if (validationErrors.length > 1) {
 
@@ -57,9 +55,9 @@ exports.do = function(id, data) {
       // I'm not capturing the success or failure... TODO ?
       eventBus.publishEvent('supermarket-categorization', {
         time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
-        userEmail: userEmail,
-        itemName: itemName,
-        categoryId: category
+        userEmail: data.userEmail,
+        itemName: data.itemName,
+        categoryId: data.category
       });
 
     });
