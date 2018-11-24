@@ -17,6 +17,10 @@ exports.do = function(id, data) {
       // Check what data has to be provided
       // If it's a recategorization, the user email must be provided
       if (data.category && !data.userEmail) validationErrors.push({message: 'Missing user email (field userEmail).'})
+      // If it's a recategorization, the item name must be provided
+      if (data.category && !data.itemName) validationErrors.push({message: 'Missing item name (field itemName).'})
+
+      console.log(validationErrors);
 
       // If there's any validation error, go back
       if (validationErrors.length > 1) {
@@ -55,7 +59,7 @@ exports.do = function(id, data) {
         time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
         userEmail: userEmail,
         itemName: itemName,
-        categoryId: categoryId
+        categoryId: category
       });
 
     });
