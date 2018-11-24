@@ -27,6 +27,8 @@ consumer.on('message', (message) => {
     // Only care about POSTed items
     if (data.action != 'POST') return;
 
+    let itemId = data.itemId;
+
     // Retrieve the item's details
     getCurrentListItem.do(data.itemId).then(function(item) {
 
@@ -43,7 +45,7 @@ consumer.on('message', (message) => {
         if (items == null || items.length == 0) return;
 
         // Update the item
-        putCurrentListItem.do(data.itemId, {automatic: true, category: items[0].categoryId});
+        putCurrentListItem.do(itemId, {automatic: true, category: items[0].categoryId});
 
       })
     });
