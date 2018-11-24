@@ -16,7 +16,7 @@ exports.do = function(id) {
 
         db.close();
 
-        if (array == null || array.length == 0) return {};
+        if (array == null || array.length == 0) success({});
 
         success({
           id: item._id,

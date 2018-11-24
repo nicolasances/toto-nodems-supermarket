@@ -27,7 +27,7 @@ consumer.on('message', (message) => {
     if (data.action != 'POST') return;
 
     // Retrieve the item's details
-    getCurrentListItem.do(data.itemId).then((item) => {
+    getCurrentListItem.do(data.itemId).then(function(item) {
 
       if (item == null) return;
 
