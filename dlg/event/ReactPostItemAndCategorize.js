@@ -40,6 +40,8 @@ consumer.on('message', (message) => {
 
         let items = data.items;
 
+        console.log(data);
+
         if (items == null || items.length == 0) return;
 
         // Update the item
