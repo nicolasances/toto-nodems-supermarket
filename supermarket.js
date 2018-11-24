@@ -46,7 +46,7 @@ app.put('/currentList', function(req, res) {logger.apiCalled('supermarket', '/cu
 app.post('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'POST', req.query, req.params, req.body); postCurrentListItem.do(req.body).then(function(result) {res.send(result);});});
 app.get('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'GET', req.query, req.params, req.body); getCurrentListItems.do(req.query).then(function(result) {res.send(result);});});
 app.delete('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'DELETE', req.query, req.params, req.body); deleteCurrentListItem.do(req.params.id).then(function(result) {res.send(result);});});
-app.put('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'PUT', req.query, req.params, req.body); putCurrentListItem.do(req.params.id, req.body).then(function(result) {res.send(result);});});
+app.put('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'PUT', req.query, req.params, req.body); putCurrentListItem.do(req.params.id, req.body).then(function(result) {res.send(result);}, (err) => {res.status(err.httpStatusCode).send(err)});});
 
 app.get('/pastLists', function(req, res) {logger.apiCalled('supermarket', '/pastLists', 'GET', req.query, req.params, req.body); getPastLists.do(req.query).then(function(result) {res.send(result);});});
 app.get('/pastLists/:id', function(req, res) {logger.apiCalled('supermarket', '/pastLists/{id}', 'GET', req.query, req.params, req.body); getPastList.do(req.params.id).then(function(result) {res.send(result);});});

@@ -11,6 +11,23 @@ exports.do = function(id, data) {
 
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
+      // VALIDATION
+      let validationErrors = [];
+
+      // Check what data has to be provided
+      // If it's a recategorization, the user email must be provided
+      if (data.category && !data.userEmail) validationErrors.push({message: 'Missing user email (field userEmail).'})
+
+      // If there's any validation error, go back
+      if (validationErrors.length > 1) {
+
+        // Fail
+        failure({httpStatusCode: 400, erorrs: validationErrors})
+
+        // Return
+        return;
+      }
+
       // Data to be updated
       let updateData = {};
 
