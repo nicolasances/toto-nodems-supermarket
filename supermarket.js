@@ -23,7 +23,7 @@ var payPastList = require('./dlg/PayPastList');
 var getCommonItems = require('./dlg/GetCommonItems');
 
 // Start the event REACTors
-require('./event/ReactCategorization');
+require('./dlg/event/ReactCategorization');
 
 var apiName = 'supermarket';
 
