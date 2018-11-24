@@ -10,7 +10,7 @@ exports.do = function(data) {
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
       // Filter definition
-      let filter = {items: {$elemMatch: {"items.name": new RegExp('^' + data.itemName + '$', 'i'), "items.categoryId": null}}};
+      let filter = {items: {$elemMatch: {"name": new RegExp('^' + data.itemName + '$', 'i'), "categoryId": null}}};
 
       // Update clause
       let update = {$set: {"items.$.categoryId": data.categoryId}}
