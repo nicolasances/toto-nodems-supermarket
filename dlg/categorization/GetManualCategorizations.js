@@ -30,10 +30,10 @@ exports.do = function(filter) {
 
         for (var i = 0; i < array.length; i++) {
           items.push({
-            date: items[i].date,
-            userEmail: items[i].userEmail,
-            itemName: items[i].itemName,
-            categoryId: items[i].categoryId
+            date: array[i].date,
+            userEmail: array[i].userEmail,
+            itemName: array[i].itemName,
+            categoryId: array[i].categoryId
           })
         }
 
