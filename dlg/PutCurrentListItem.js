@@ -15,10 +15,10 @@ exports.do = function(id, data) {
       let validationErrors = [];
 
       // Check what data has to be provided
-      // If it's a recategorization, the user email must be provided
-      if (data.category && !data.userEmail) validationErrors.push({message: 'Missing user email (field userEmail).'})
-      // If it's a recategorization, the item name must be provided
-      if (data.category && !data.itemName) validationErrors.push({message: 'Missing item name (field itemName).'})
+      // If it's a recategorization, the user email must be provided, but DON'T CONSIDER IF AUTOMATIC (DONE AUTOMATICALLY BY TOTO)
+      if (!data.automatic && data.category && !data.userEmail) validationErrors.push({message: 'Missing user email (field userEmail).'})
+      // If it's a recategorization, the item name must be provided, but DON'T CONSIDER IF AUTOMATIC (DONE AUTOMATICALLY BY TOTO)
+      if (!data.automatic && data.category && !data.itemName) validationErrors.push({message: 'Missing item name (field itemName).'})
 
       // If there's any validation error, go back
       if (validationErrors.length > 1) {
@@ -52,13 +52,16 @@ exports.do = function(id, data) {
 
       // If the category was updated (manual categorization), send a manual
       // categorization event
-      // I'm not capturing the success or failure... TODO ?
-      eventBus.publishEvent('supermarket-categorization', {
-        time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
-        userEmail: data.userEmail,
-        itemName: data.itemName,
-        categoryId: data.category
-      });
+      if (!data.automatic) {
+
+        // I'm not capturing the success or failure... TODO ?
+        eventBus.publishEvent('supermarket-categorization', {
+          time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
+          userEmail: data.userEmail,
+          itemName: data.itemName,
+          categoryId: data.category
+        });
+      }
 
     });
   });
