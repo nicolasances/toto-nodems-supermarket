@@ -15,6 +15,9 @@ exports.do = function(data) {
       // Update clause
       let update = {$set: {"items.$.categoryId": data.categoryId}}
 
+      console.log(JSON.stringify(filter));
+      console.log(JSON.stringify(update));
+
       // Fetch the data!
       db.db(config.dbName).collection(config.collections.currentList)
                           .updateMany(filter, update, function(err, res) {
