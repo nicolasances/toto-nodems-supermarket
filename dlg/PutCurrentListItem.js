@@ -37,7 +37,7 @@ exports.do = function(id, data) {
       if (data.noteBy != null) updateData.noteBy = data.noteBy;
       if (data.noteByGivenName != null) updateData.noteByGivenName = data.noteByGivenName;
       if (data.grabbed != null) updateData.grabbed = data.grabbed;
-      if (data.category != null) updateData.category = data.category;
+      if (data.category != null) updateData.categoryId = data.category;
 
       // Define the update statement
       let updateStatement = {$set: updateData};
