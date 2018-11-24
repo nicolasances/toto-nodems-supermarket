@@ -1,5 +1,7 @@
 var mongo = require('mongodb');
 var config = require('../config');
+var eventBus = require('../event/EventBus');
+var moment = require('moment-timezone');
 
 var MongoClient = mongo.MongoClient;
 
@@ -21,6 +23,14 @@ exports.do = function(item) {
         db.close();
 
         success({id: res.insertedId});
+
+        // Throw an event to start finding the right category for this item
+        eventBus.publishEvent('supermarket-items', {
+          time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
+          action: 'POST',
+          itemId: res.insertedId
+        });
+
       });
 
     });
