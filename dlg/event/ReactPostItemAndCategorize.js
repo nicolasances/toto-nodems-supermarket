@@ -3,16 +3,12 @@ var moment = require('moment-timezone');
 var getCurrentListItem = require('../GetCurrentListItem');
 var getManualCategorizations = require('../categorization/GetManualCategorizations');
 
-var postManualCategorization = require('../categorization/PostManualCategorization');
-var propagateCategorizationToCurrentList = require('../categorization/PropagateCategorizationToCurrentList');
-var propagateCategorizationToPastLists = require('../categorization/PropagateCategorizationToPastLists');
-
 // Kafka setup
 var Consumer = kafka.Consumer;
 var client = new kafka.KafkaClient({kafkaHost: 'kafka:9092', connectTimeout: 3000, requestTimeout: 6000});
 
 var options = {
-  groupId: 'supermarket-api'
+  groupId: 'supermarket-api-ReacPostItem'
 }
 
 var consumer = new Consumer(client, [
