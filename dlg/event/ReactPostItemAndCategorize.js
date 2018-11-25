@@ -19,6 +19,11 @@ var consumer = new Consumer(client, [
   {topic: 'supermarket-items'}
 ], options);
 
+consumer.on('error', (error) => {
+  console.log(error);
+  console.log('But I am not stopping!!');
+})
+
 /**
  * Reacts to a POSTed item to categorize it
  */

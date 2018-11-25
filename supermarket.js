@@ -25,7 +25,7 @@ var getCommonItems = require('./dlg/GetCommonItems');
 
 // Start the event REACTors
 require('./dlg/event/ReactCategorization');
-// require('./dlg/event/ReactPostItemAndCategorize');
+require('./dlg/event/ReactPostItemAndCategorize');
 
 var apiName = 'supermarket';
 
