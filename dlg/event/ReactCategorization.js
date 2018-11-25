@@ -8,6 +8,9 @@ var propagateCategorizationToPastLists = require('../categorization/PropagateCat
 // Kafka setup
 var Consumer = kafka.Consumer;
 var client = new kafka.KafkaClient({kafkaHost: 'kafka:9092', connectTimeout: 3000, requestTimeout: 6000});
+var producer = new kafka.Producer(client);
+
+producer.createTopics(['supermarket-categorization'], false, function (err, data) {});
 
 var options = {
   groupId: 'supermarket-api'
