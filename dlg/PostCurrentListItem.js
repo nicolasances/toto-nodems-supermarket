@@ -14,6 +14,7 @@ exports.do = function(item) {
       // Create the data object
       let data = {
         name: item.name,
+        categoryId: item.category,
         addedBy: item.addedBy
       }
 
