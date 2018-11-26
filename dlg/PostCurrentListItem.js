@@ -26,6 +26,9 @@ exports.do = function(item) {
         success({id: res.insertedId});
 
         // Throw an event to start finding the right category for this item
+        // Only if no category was passed
+        if (item.category) return;
+        
         eventBus.publishEvent('supermarket-items', {
           time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
           action: 'POST',
