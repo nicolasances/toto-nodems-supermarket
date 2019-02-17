@@ -17,7 +17,7 @@ exports.do = (event) => {
     let itemId = data.itemId;
 
     // Retrieve the item's details
-    getCurrentListItem.do(data.itemId).then(function(item) {
+    getCurrentListItem.do({params: {id: data.itemId}}).then(function(item) {
 
       if (item == null) return;
 
@@ -32,7 +32,7 @@ exports.do = (event) => {
         if (items == null || items.length == 0) return;
 
         // Update the item
-        putCurrentListItem.do(itemId, {automatic: true, category: items[0].categoryId});
+        putCurrentListItem.do({params: {id: itemId}, body: {automatic: true, category: items[0].categoryId}});
 
       })
     });
