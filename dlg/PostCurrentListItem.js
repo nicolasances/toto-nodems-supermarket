@@ -8,6 +8,7 @@ var MongoClient = mongo.MongoClient;
 exports.do = function(req) {
 
   var item = req.body;
+  var cid = req.headers['x-correlation-id'];
 
   return new Promise(function(success, failure) {
 
@@ -32,6 +33,7 @@ exports.do = function(req) {
         if (item.category) return;
 
         totoEventPublisher.publishEvent('supermarket-items', {
+          correlationId: cid, 
           time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
           action: 'POST',
           itemId: res.insertedId

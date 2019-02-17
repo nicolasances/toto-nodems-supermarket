@@ -10,6 +10,7 @@ exports.do = function(req) {
   var listId = req.params.id;
   var name = req.params.name;
   var data = req.body;
+  var cid = req.headers['x-correlation-id'];
 
   return new Promise(function(success, failure) {
 
@@ -57,6 +58,7 @@ exports.do = function(req) {
         // categorization event
         // I'm not capturing the success or failure... TODO ?
         totoEventPublisher.publishEvent('supermarket-categorization', {
+          correlationId: cid,
           time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
           userEmail: data.userEmail,
           itemName: data.itemName,
