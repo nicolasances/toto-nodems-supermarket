@@ -31,8 +31,12 @@ exports.do = (event) => {
 
         if (items == null || items.length == 0) return;
 
+        headers = {
+          'x-correlation-id': data.correlationId
+        }
+
         // Update the item
-        putCurrentListItem.do({params: {id: itemId}, body: {automatic: true, category: items[0].categoryId}});
+        putCurrentListItem.do({headers: headers, params: {id: itemId}, body: {automatic: true, category: items[0].categoryId}});
 
       })
     });
