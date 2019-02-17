@@ -17,6 +17,10 @@
     "mongodb": "^3.0.1",
     "promise": "^8.0.1",
     "request": "^2.88.0",
-    "toto-apimon-events": "^1.0.1"
+    "toto-api-controller": "^3.0.1",
+    "toto-apimon-events": "^1.0.1",
+    "toto-event-consumer": "^3.0.7",
+    "toto-event-publisher": "^3.0.0",
+    "toto-request": "^2.0.1"
   }
 }

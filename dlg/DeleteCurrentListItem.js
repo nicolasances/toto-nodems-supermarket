@@ -3,7 +3,9 @@ var config = require('../config');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(id) {
+exports.do = function(req) {
+
+  var id = req.params.id;
 
   return new Promise(function(success, failure) {
 

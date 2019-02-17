@@ -1,36 +1,18 @@
-var http = require('request');
+var http = require('toto-request');
 
 /**
  * This delegate is used to post a payment on the POST /expenses microservice endpoint
  */
-exports.do = function(id) {
+exports.do = function(id, correlationId) {
 
   return new Promise(function(success, failure) {
 
-      http(
-        { method: 'GET',
-          uri: 'http://toto-nodems-expenses:8080/expenses/' + id,
-          headers: {
-            'Accept': 'application/json'
-          }
-        },
-        (err, resp, body) => {
-
-          if (err) {
-            console.log(err);
-            failure({message: 'An error occurred while posting the payment'});
-            return;
-          }
-
-          if (body == null) {
-            failure({message: 'No body received when calling the GET /expenses/' + id});
-            return;
-          }
-
-          success(JSON.parse(body));
-
-        }
-      )
+      http({
+        correlationId: correlationId,
+        method: 'GET',
+        microservice: 'toto-nodems-expenses',
+        resource: '/expenses/' + id
+      }).then((data) => {success(data);}, failure);
 
   });
 

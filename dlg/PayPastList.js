@@ -12,7 +12,10 @@ var MongoClient = mongo.MongoClient;
  * This delegate is used to add a payment in the "expenses" app and mark a
  * supermarket expense as "paid"
  */
-exports.do = function(list) {
+exports.do = function(req) {
+
+  var list = req.body;
+  var cid = req.headers['x-correlation-id'];
 
   return new Promise(function(success, failure) {
 
@@ -43,10 +46,10 @@ exports.do = function(list) {
           additionalData: {
             supermarketListId: list.id
           }
-        }).then((data) => {
+        }, cid).then((data) => {
 
           // Retrieve the payment data and update the list with the payment ID
-          getPayment.do(data.id).then((data) => {
+          getPayment.do(data.id, cid).then((data) => {
 
             // Update the list with the payment ID
             putPastList.do(data.additionalData.supermarketListId, {paymentId: data.id});

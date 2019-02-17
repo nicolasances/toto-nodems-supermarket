@@ -4,7 +4,9 @@ var converter = require('../conv/MissingGoodConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.postMissingGood = function(missingGood) {
+exports.postMissingGood = function(req) {
+
+  var missingGood = req.body;
 
   return new Promise(function(success, failure) {
 

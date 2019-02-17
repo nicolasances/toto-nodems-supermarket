@@ -3,7 +3,9 @@ var config = require('../config');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(filters) {
+exports.do = function(req) {
+
+  var filters = req.query;
 
   return new Promise(function(success, failure) {
 

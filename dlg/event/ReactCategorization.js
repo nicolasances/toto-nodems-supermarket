@@ -1,34 +1,16 @@
-var kafka = require('kafka-node');
 var moment = require('moment-timezone');
 
 var postManualCategorization = require('../categorization/PostManualCategorization');
 var propagateCategorizationToCurrentList = require('../categorization/PropagateCategorizationToCurrentList');
 var propagateCategorizationToPastLists = require('../categorization/PropagateCategorizationToPastLists');
 
-// Kafka setup
-var Consumer = kafka.Consumer;
-var client = new kafka.KafkaClient({kafkaHost: 'kafka:9092', connectTimeout: 3000, requestTimeout: 6000});
-
-var options = {
-  groupId: 'supermarket-api'
-}
-
-var consumer = new Consumer(client, [
-  {topic: 'supermarket-categorization'}
-], options);
-
-consumer.on('error', (error) => {
-  console.log(error);
-  console.log('But I am not stopping!!');
-})
-
 /**
  * Reacts to receiving a message on the supermarket-categorization topic
  */
-consumer.on('message', (message) => {
+exports.do = (event) => {
 
     // Extract data from the event
-    let data = JSON.parse(message.value);
+    let data = event;
 
     // 1. Create a new manual categorization
     postManualCategorization.do({
@@ -50,4 +32,4 @@ consumer.on('message', (message) => {
       categoryId: data.categoryId
     })
 
-});
+}

@@ -1,11 +1,13 @@
 var mongo = require('mongodb');
 var config = require('../config');
-var eventBus = require('../event/EventBus');
+var totoEventPublisher = require('toto-event-publisher');
 var moment = require('moment-timezone');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(item) {
+exports.do = function(req) {
+
+  var item = req.body;
 
   return new Promise(function(success, failure) {
 
@@ -28,12 +30,12 @@ exports.do = function(item) {
         // Throw an event to start finding the right category for this item
         // Only if no category was passed
         if (item.category) return;
-        
-        eventBus.publishEvent('supermarket-items', {
+
+        totoEventPublisher.publishEvent('supermarket-items', {
           time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
           action: 'POST',
           itemId: res.insertedId
-        }).then(() => {console.log('Published POST of item ' + res.insertedId);}, () => {console.log('Failed posting item');});
+        });
 
       });
 

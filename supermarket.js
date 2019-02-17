@@ -1,14 +1,13 @@
-var express = require('express');
-var Promise = require('promise');
-var bodyParser = require("body-parser");
-var logger = require('toto-apimon-events');
+var Controller = require('toto-api-controller');
+var TotoEventConsumer = require('toto-event-consumer');
+var totoEventPublisher = require('toto-event-publisher');
 
-var getMissingGoodsDlg = require('./dlg/GetMissingGoodsDelegate');
-var postMissingGoodDlg = require('./dlg/PostMissingGoodDelegate');
-var getMissingGoodDlg = require('./dlg/GetMissingGoodDelegate');
-var deleteMissingGoodDlg = require('./dlg/DeleteMissingGoodDelegate');
-var deleteMissingGoodsDlg = require('./dlg/DeleteMissingGoodsDelegate');
-var putMissingGoodDlg = require('./dlg/PutMissingGoodDelegate');
+var getMissingGoods = require('./dlg/GetMissingGoodsDelegate');
+var postMissingGood = require('./dlg/PostMissingGoodDelegate');
+var getMissingGood = require('./dlg/GetMissingGoodDelegate');
+var deleteMissingGood = require('./dlg/DeleteMissingGoodDelegate');
+var deleteMissingGoods = require('./dlg/DeleteMissingGoodsDelegate');
+var putMissingGood = require('./dlg/PutMissingGoodDelegate');
 
 var closeCurrentList = require('./dlg/CloseCurrentList');
 var postCurrentListItem = require('./dlg/PostCurrentListItem');
@@ -23,43 +22,41 @@ var putPastListItem = require('./dlg/PutPastListItem');
 
 var getCommonItems = require('./dlg/GetCommonItems');
 
-// Start the event REACTors
-require('./dlg/event/ReactCategorization');
-require('./dlg/event/ReactPostItemAndCategorize');
+var reactCategorization = require('./dlg/event/ReactCategorization');
+var reactPostItemAndCategorize = require('./dlg/event/ReactPostItemAndCategorize');
 
+// API
 var apiName = 'supermarket';
 
-var app = express();
+// Registering event producers
+totoEventPublisher.registerTopic({topicName: 'supermarket-categorization', microservice: apiName}).then(() => {}, (err) => {console.log(err);});
+totoEventPublisher.registerTopic({topicName: 'supermarket-items', microservice: apiName}).then(() => {}, (err) => {console.log(err);});
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Methods", "OPTIONS, GET, PUT, POST, DELETE");
-  next();
-});
-app.use(bodyParser.json());
+// Start the event REACTors
+var eventConsumer = new TotoEventConsumer(apiName, 'supermarket-categorization', reactCategorization.do);
+var eventConsumer = new TotoEventConsumer(apiName, 'supermarket-items', reactPostItemAndCategorize.do);
 
-app.get('/', function(req, res) {res.send({api: apiName, status: 'running'});});
-app.get('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'GET', req.query, req.params, req.body); getMissingGoodsDlg.getMissingGoods({bought: req.params.bought}).then(function(result) {res.send(result);});});
-app.delete('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'DELETE', req.query, req.params, req.body); deleteMissingGoodsDlg.deleteMissingGoods({bought: req.params.bought}).then(function() {res.send();});});
-app.post('/missingGoods', function(req, res) {logger.apiCalled('supermarket', '/missingGoods', 'POST', req.query, req.params, req.body); postMissingGoodDlg.postMissingGood(req.body).then(function(result) {res.send(result);});});
-app.get('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'GET', req.query, req.params, req.body); getMissingGoodDlg.getMissingGood(req.params.id).then(function(result) {res.send(result);});});
-app.put('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'PUT', req.query, req.params, req.body); putMissingGoodDlg.putMissingGood(req.params.id, req.body).then(function(result) {res.send(result);});});
-app.delete('/missingGoods/:id', function(req, res) {logger.apiCalled('supermarket', '/missingGoods/{id}', 'DELETE', req.query, req.params, req.body); deleteMissingGoodDlg.deleteMissingGood(req.params.id).then(function() {res.send()});});
+// Starting api
+var api = new Controller(apiName, totoEventPublisher, null);
 
-app.put('/currentList', function(req, res) {logger.apiCalled('supermarket', '/currentList', 'DELETE', req.query, req.params, req.body); closeCurrentList.do(req.body).then(function(result) {res.send(result);});});
-app.post('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'POST', req.query, req.params, req.body); postCurrentListItem.do(req.body).then(function(result) {res.send(result);});});
-app.get('/currentList/items', function(req, res) {logger.apiCalled('supermarket', '/currentList/items', 'GET', req.query, req.params, req.body); getCurrentListItems.do(req.query).then(function(result) {res.send(result);});});
-app.delete('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'DELETE', req.query, req.params, req.body); deleteCurrentListItem.do(req.params.id).then(function(result) {res.send(result);});});
-app.put('/currentList/items/:id', function(req, res) {logger.apiCalled('supermarket', '/currentList/items/:id', 'PUT', req.query, req.params, req.body); putCurrentListItem.do(req.params.id, req.body).then(function(result) {res.send(result);}, (err) => {res.status(err.httpStatusCode).send(err)});});
+api.path('GET', '/missingGoods', getMissingGoods);
+api.path('DELETE', '/missingGoods', deleteMissingGoods);
+api.path('POST', '/missingGoods', postMissingGood);
+api.path('GET', '/missingGoods/:id', getMissingGood);
+api.path('PUT', '/missingGoods/:id', putMissingGood);
+api.path('DELETE', '/missingGoods/:id', deleteMissingGood);
 
-app.get('/pastLists', function(req, res) {logger.apiCalled('supermarket', '/pastLists', 'GET', req.query, req.params, req.body); getPastLists.do(req.query).then(function(result) {res.send(result);});});
-app.get('/pastLists/:id', function(req, res) {logger.apiCalled('supermarket', '/pastLists/{id}', 'GET', req.query, req.params, req.body); getPastList.do(req.params.id).then(function(result) {res.send(result);});});
-app.post('/pastLists/:id/pay', function(req, res) {logger.apiCalled('supermarket', '/pastLists/{id}/pay', 'POST', req.query, req.params, req.body); payPastList.do(req.body).then(function(result) {res.send(result);});});
-app.put('/pastLists/:id/items/:name', function(req, res) {logger.apiCalled('supermarket', '/pastLists/{id}/items/{name}', 'PUT', req.query, req.params, req.body); putPastListItem.do(req.params.id, req.params.name, req.body).then(function(result) {res.send(result);});});
+api.path('PUT', '/currentList', closeCurrentList);
+api.path('POST', '/currentList/items', postCurrentListItem);
+api.path('GET', '/currentList/items', getCurrentListItems);
+api.path('DELETE', '/currentList/items/:id', deleteCurrentListItem);
+api.path('PUT', '/currentList/items/:id', putCurrentListItem);
 
-app.get('/commonItems', function(req, res) {logger.apiCalled('supermarket', '/commonItems', 'GET', req.query, req.params, req.body); getCommonItems.do().then(function(result) {res.send(result);});});
+api.path('GET', '/pastLists', getPastLists);
+api.path('GET', '/pastLists/:id', getPastList);
+api.path('POST', '/pastLists/:id/pay', payPastList);
+api.path('PUT', '/pastLists/:id/items/:name', putPastListItem);
 
-app.listen(8080, function() {
-  console.log('Supermarket Microservice up and running');
-});
+api.path('GET', '/commonItems', getCommonItems);
+
+api.listen();

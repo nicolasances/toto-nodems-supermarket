@@ -4,7 +4,10 @@ var converter = require('../conv/MissingGoodConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.putMissingGood = function(missingGoodId, updateRequest) {
+exports.putMissingGood = function(req) {
+
+  var missingGoodId = req.params.id;
+  var updateRequest = req.body;
 
   return new Promise(function(success, failure) {
 

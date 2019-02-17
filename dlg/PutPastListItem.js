@@ -1,11 +1,15 @@
 var mongo = require('mongodb');
 var config = require('../config');
-var eventBus = require('../event/EventBus');
+var totoEventPublisher = require('toto-event-publisher');
 var moment = require('moment-timezone');
 
 var MongoClient = mongo.MongoClient;
 
-exports.do = function(listId, name, data) {
+exports.do = function(req) {
+
+  var listId = req.params.id;
+  var name = req.params.name;
+  var data = req.body;
 
   return new Promise(function(success, failure) {
 
@@ -52,7 +56,7 @@ exports.do = function(listId, name, data) {
         // If the category was updated (manual categorization), send a manual
         // categorization event
         // I'm not capturing the success or failure... TODO ?
-        eventBus.publishEvent('supermarket-categorization', {
+        totoEventPublisher.publishEvent('supermarket-categorization', {
           time: moment().tz('Europe/Rome').format('YYYYMMDDHHmmssSSS'),
           userEmail: data.userEmail,
           itemName: data.itemName,

@@ -7,7 +7,9 @@ var MongoClient = mongo.MongoClient;
 /**
  * Deletes the current list, saves the cost of it, archives it and creates a new empty supermarket list
  */
-exports.do = function(cost) {
+exports.do = function(req) {
+
+  var cost = req.body;
 
   return new Promise(function(success, failure) {
 

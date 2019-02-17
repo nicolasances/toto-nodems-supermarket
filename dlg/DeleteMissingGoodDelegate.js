@@ -4,7 +4,9 @@ var converter = require('../conv/MissingGoodConverter');
 
 var MongoClient = mongo.MongoClient;
 
-exports.deleteMissingGood = function(missingGoodId) {
+exports.deleteMissingGood = function(req) {
+
+  var missingGoodId = req.params.id;
 
   return new Promise(function(success, failure) {
 
