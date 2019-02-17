@@ -52,7 +52,7 @@ exports.do = function(req) {
           getPayment.do(data.id, cid).then((data) => {
 
             // Update the list with the payment ID
-            putPastList.do(data.additionalData.supermarketListId, {paymentId: data.id});
+            putPastList.do({params: {id: data.additionalData.supermarketListId}, body: {paymentId: data.id}});
 
           });
 
