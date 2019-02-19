@@ -7,6 +7,17 @@ client = new kafka.KafkaClient({kafkaHost: 'kafka:9092', connectTimeout: 3000, r
 producer = new Producer(client);
 
 /**
+ * Function to create a new unique message id
+ */
+var newMsgId = function(cid) {
+
+	let random = (Math.random() * 100000).toFixed(0).padStart(5, '0');
+
+	return cid + '-' + random;
+
+}
+
+/**
  * Facade to the Toto event bus publishing functionalities
  */
 class TotoEventPublisher {
@@ -40,7 +51,12 @@ class TotoEventPublisher {
       if (!found) {failure({code: 404, message: 'Sorry, the topic "' + topic + '" has not been registered. Please register it first with the registerTopic() method'}); return;}
 
       // Logging the event posting, ONLY if there is a correlation id
-      if (event.correlationId) logger.eventOut(event.correlationId, topic);
+      if (event.correlationId) {
+        // Define the message id
+        let msgId = newMsgId(event.correlationId);
+        // Log
+        logger.eventOut(event.correlationId, topic);
+      }
 
       // Send the event to the producer
       producer.send([{topic: topic, messages: JSON.stringify(event)}], function(err, data) {

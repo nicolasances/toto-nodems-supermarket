@@ -8,7 +8,7 @@ It provides some basic functionality among which:
 
 ## How to use
 Import the node module <br/>
-`var http = require('node-toto-request');`
+`var http = require('toto-request');`
 
 Call the `http()` function:
 ```
@@ -18,4 +18,19 @@ http({
   method:         optional, 'the HTTP method: GET, POST, PUT, DELETE, ...'. If not provided, will use 'GET',
   resource:       optional, 'the path to call. e.g. /sessions?date=20192039' including the paramters
 });
+```
+
+## Passing a body
+To pass the body (e.g. for POST requests), just pass a **json** object as **body**:
+```
+var body = {
+  ...
+}
+http({
+  correlationId:  'asdasd',
+  microservice:   'expenses',
+  method:         'POST',
+  resource:       '/expenses',
+  body:           body
+  });
 ```
