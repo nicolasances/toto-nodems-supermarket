@@ -19,6 +19,9 @@ exports.do = function(req) {
 
   return new Promise(function(success, failure) {
 
+    // Validation: user
+    if (!list.user) {failure({code: 400, message: 'The user must be provided.'}); return;}
+
     // 1. Set the list as "paid"
     return MongoClient.connect(config.mongoUrl, function(err, db) {
 
@@ -43,6 +46,7 @@ exports.do = function(req) {
           description: 'Supermarket: Føtex', // TODO : put the true name of the supermarket and location (e.g. Copenhagen)
           yearMonth: moment(list.date, 'YYYYMMDD').tz('Europe/Rome').format('YYYYMM'),
           currency: 'DKK', // TODO: set the true currency,
+          user: list.user,
           additionalData: {
             supermarketListId: list.id
           }
